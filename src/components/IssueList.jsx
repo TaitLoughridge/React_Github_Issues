@@ -1,27 +1,19 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Issue from './Issue';
 
-class IssueList extends Component {
-    state = {
-        issueData: [],
-    };
+const IssueList = props => {
+    const [issues, setIssues] = useState([]);
 
-        loadData = async () => {
+    useEffect(() => {
+        (async function(){
             const response = await fetch('https://api.github.com/repos/facebook/create-react-app/issues');
-            const data = await response.json();
-            return data;
-        }
-    
-    async componentDidMount() {
-        const issues = await this.loadData();
-        
-        this.setState({
-            issues,
-        });
-    }
+            const issues = response.json();
+            setIssues(issues);
+        })();
+    }, [setIssues]);
 
-    render() {
+    render() 
         const { issues } = this.state;
         return (
             <>
@@ -49,7 +41,9 @@ class IssueList extends Component {
                 <p>Fetching issues...</p>
             )}
         </>
-        );
-    }
+    );
 }
+
+
+
 export default IssueList;

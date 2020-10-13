@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 
         return (
         <>
-            <a href={issue.url}><h2>{issue.title}</h2></a>
+            <h2>{issue.title}</h2>
             <ReactMarkdown source={issue.body} escapeHtml={false} />
         </>
     );
