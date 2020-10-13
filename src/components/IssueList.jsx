@@ -2,22 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Issue from './Issue';
 
-const IssueList = props => {
+const IssueList = (props) => {
     const [issues, setIssues] = useState([]);
 
     useEffect(() => {
         (async function(){
             const response = await fetch('https://api.github.com/repos/facebook/create-react-app/issues');
-            const issues = response.json();
+            const issues = await response.json();
             setIssues(issues);
         })();
     }, [setIssues]);
 
-    render() 
-        const { issues } = this.state;
         return (
             <>
-            {!!issues ? (
+            {!!issues.length ? (
                 <>  
                     <h1>Github Issues List</h1>
                     <Route exact path='/'>
@@ -43,7 +41,5 @@ const IssueList = props => {
         </>
     );
 }
-
-
 
 export default IssueList;
