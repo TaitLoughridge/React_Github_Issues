@@ -1,12 +1,14 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom'
 import './App.css';
 import IssueList from './components/IssueList';
-import Issue from './components/Issue';
 
 function App() {
   return (
     <div>
+      <Router>
       <IssueList/>
+      </Router>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Issue from './Issue'
+import { Route, Link } from 'react-router-dom';
+import Issue from './Issue';
 
 class IssueList extends Component {
     state = {
@@ -13,19 +14,41 @@ class IssueList extends Component {
         }
     
     async componentDidMount() {
-        const issueData = await this.loadData();
+        const issues = await this.loadData();
         
         this.setState({
-            issueData: issueData,
+            issues,
         });
     }
 
     render() {
-        const { issueData } = this.state;
+        const { issues } = this.state;
         return (
             <>
-                {issueData.map((issue, index) => (<Issue issue={issue} key={issue.id}/>))}
-            </>
+            {!!issues ? (
+                <>  
+                    <h1>Github Issues List</h1>
+                    <Route exact path='/'>
+                        <ul>
+                            {issues.map((issue) => {
+                                return (
+                                    <li key={issue.id}> 
+                                        {issue.title}
+                                        <Link to={`/issue/${issue.number}`}><p>View Details</p></Link>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </Route>
+                    <Route path={`/issue/:issue_number`}>
+                        <Link to='/'>Return to List</Link>
+                        <Issue issues={issues}/>
+                    </Route>
+                </>
+            ) : (
+                <p>Fetching issues...</p>
+            )}
+        </>
         );
     }
 }
